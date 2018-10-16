@@ -1,0 +1,25 @@
+{
+  "name":"main_menu",
+  "gui":[
+    {
+      "type":"Label",
+      "height":64,
+      "width":196,
+      "text":"Hello!"
+    },
+    {
+      "type":"Button",
+      "y":64,
+      "height":32,
+      "width":96,
+      "text":"Start"
+    },
+    {
+      "type":"Textbox",
+      "y":128,
+      "width":128
+    }
+  ],
+  "components":[]
+
+}

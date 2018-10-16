@@ -1,0 +1,16 @@
+{
+  "name":"default",
+  "gui":[
+    {
+      "type":"Textbox",
+      "name":"txtBox1",
+      "height":48,
+      "width":128,
+      "text":"test"
+
+    }
+
+  ],
+  "components":[]
+
+}
