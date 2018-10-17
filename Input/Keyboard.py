@@ -1,5 +1,7 @@
-__author__ = 'User'
-
+"""
+To add new key, add an entry to self.keys and pykey_to_key
+No idea how any of this code works.
+"""
 import pygame
 
 class Keyboard:

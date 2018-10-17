@@ -17,6 +17,7 @@ class Scene:
         for component in self.components:
             component.draw()
 
+    # Adds a component to the scene.
     def add(self, component, name=None):
         if name is not None:
             component.name = name
@@ -28,6 +29,7 @@ class Scene:
                 break
         self.components.insert(0, component)
 
+    # Initiates scene from a given dictionary.
     def init_from_dict(self, dict):
         self.name = dict["name"]
         for guiActor in dict["gui"]:
@@ -37,6 +39,13 @@ class Scene:
                 self.add(actor)
         for component in dict["components"]:
             pass
+
+    # Returns component with the name "name"
+    def get_component(self, name):
+        for c in self.components:
+            if c.name == name:
+                return c
+        return None
 
 class TestScene(Scene):
     def __init__(self, game):

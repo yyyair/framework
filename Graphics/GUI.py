@@ -12,12 +12,15 @@ class GuiManager:
         self.father = None
 
 
-    def add(self, item, name=None):
+    def add(self, item):
         if self.father is None:
             return -1
         self.items.append(item)
-        n = "guiActor-%s" % len(self.items) if name is None else name
-        item.name = n
+        n = "guiActor-%s" % len(self.items)
+        if item.name is None:
+            item.name = n
+        else:
+            item.name = str(item.name)
         #self.father.add(item, n)
         #self.game.mouse.onClick(0, self.handle_mouse_click)
 
@@ -143,7 +146,7 @@ class Textbox(GuiActor):
 
 class Label(GuiActor):
     def __init__(self, game, **kwargs):
-        GuiActor.__init__(self, game, kwargs=kwargs)
+        GuiActor.__init__(self, game, **kwargs)
         def_args = {
             "text": ""
         }
@@ -157,8 +160,32 @@ class Label(GuiActor):
 
         self.game.screen.blit(tmp, (self.x, self.y))
 
+class Checkbox(GuiActor):
+    def __init__(self, game, **kwargs):
+        GuiActor.__init__(self, game, **kwargs)
+        def_args = {
+            "value": True
+        }
+        for (key, val) in def_args.iteritems():
+            setattr(self, key, kwargs.get(key, val))
+
+        self.click = self.toggle_value
+
+    def toggle_value(self):
+        self.value = not self.value
+
+    def draw(self):
+        tmp = pygame.Surface((self.width, self.height), pygame.SRCALPHA)
+        tmp.fill((0,0,0))
+        tmp.fill((255,255,255), rect=(1,1,self.width-2,self.height-2))
+        if self.value:
+            tmp.fill((0, 255, 0), rect=(self.width/2 - self.width / 4, self.height/2 - self.height / 4,self.width/2,self.height/2))
+
+        self.game.screen.blit(tmp, (self.x, self.y))
+
 GUI_Actors = {
     "Textbox":Textbox,
     "Label":Label,
-    "Button":Button
+    "Button":Button,
+    "Checkbox":Checkbox
 }

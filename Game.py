@@ -41,8 +41,10 @@ class GameObject:
         self.keyboard = Keyboard()
         self.mouse = Mouse()
 
-    def get_scene(self):
-        if self.current_scene in self.scenes:
+    def get_scene(self, name=None):
+        if name is not None and name in self.scenes:
+            return self.scenes[name]
+        elif self.current_scene in self.scenes:
             return self.scenes[self.current_scene]
         else:
             return None

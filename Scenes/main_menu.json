@@ -9,6 +9,7 @@
     },
     {
       "type":"Button",
+      "name":"btn1",
       "y":64,
       "height":32,
       "width":96,
@@ -18,6 +19,11 @@
       "type":"Textbox",
       "y":128,
       "width":128
+    },
+    {
+      "type":"Checkbox",
+      "x":128,
+      "y":128
     }
   ],
   "components":[]
