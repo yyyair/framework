@@ -124,8 +124,8 @@ class Textbox(GuiActor):
             self.last_input_frame = self.game.frame
             if e == "BACKSPACE":
                 self.text = self.text[0:-1]
-            else:
-                self.text += e
+            elif e in "ABCDEFGHIJKLMNOPQRSTVUWXYZ":
+                self.text += e if self.game.keyboard.caps_lock else e.lower()
 
     def draw(self):
         tmp = pygame.Surface((self.width, self.height), pygame.SRCALPHA)

@@ -43,12 +43,18 @@ class Keyboard:
             "RIGHT_ARROW":{"state": Keyboard.CLEAR, "events": {"down":[], "up":[], "click":[], "clear":[]}},
             "LEFT_ARROW":{"state": Keyboard.CLEAR, "events": {"down":[], "up":[], "click":[], "clear":[]}},
             "BACKSPACE":{"state": Keyboard.CLEAR, "events": {"down":[], "up":[], "click":[], "clear":[]}},
+            "TAB":{"state": Keyboard.CLEAR, "events": {"down":[], "up":[], "click":[], "clear":[]}},
+            "CAPS_LOCK":{"state": Keyboard.CLEAR, "events": {"down":[], "up":[], "click":[], "clear":[]}}
 
         }
 
         self.pressed_keys = []
         self.click_any = []
-
+        # False = treat input as lower
+        self.caps_lock = False
+        self.on("click", "CAPS_LOCK", lambda: self.toggle_caps_lock())
+    def toggle_caps_lock(self):
+        self.caps_lock = not self.caps_lock
     # Called every tick by kernel update
     def handle(self, event):
         key = self.pykey_to_key(event.key)
@@ -113,6 +119,10 @@ class Keyboard:
             return "DOWN_ARROW"
         if pykey == 8:
             return "BACKSPACE"
+        if pykey == 9:
+            return "TAB "
+        if pykey == 301:
+            return "CAPS_LOCK"
         return -1
 
     def exec_list(self, func_list):

@@ -1,4 +1,4 @@
-__author__ = 'User'
+__author__ = 'Yair'
 
 from Graphics.Scene import TestScene, Scene
 from Graphics.GUI import Textbox, Label, Button
@@ -6,7 +6,7 @@ from Assets.TileEngine import TileEngine
 from Assets.Player import  Player
 def init(game):
     game.set_scene("main_menu")
-    #game.keyboard.on_click_any(lambda x: debug("test"))
+    game.keyboard.on_click_any(lambda x: debug(x))
 
 def debug(x):
     print x
