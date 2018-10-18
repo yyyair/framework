@@ -11,7 +11,7 @@ class Scene:
         self.gui.father = self
         self.components = []
 
-        self.game.mouse.onClick(0, self.gui.handle_mouse_click)
+        self.game.mouse.on_click(0, self.gui.handle_mouse_click)
 
     def draw(self):
         for component in self.components:
