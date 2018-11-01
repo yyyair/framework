@@ -91,6 +91,7 @@ def _loop(game):
 
 
         update(game)
+        game.scenes[game.current_scene].update()
 
         game.screen.blit(game.background, (0,0))
         game.scenes[game.current_scene].draw()

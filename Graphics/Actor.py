@@ -31,9 +31,9 @@ class Actor(Component):
         hitbox.fill((0, 0, 255))
         '''
 
-        tmp.fill((0,0,255))
+        #tmp.fill((0,0,255))
 
-        crop = (32, 32, 0, 0)
+        crop = self.crop
         if self.animated:
             if self.animation is not None and self.animation.current is not None:
                 crop = self.animation.current.crop_tuple()
@@ -51,7 +51,4 @@ class Actor(Component):
 
         self.game.screen.blit(tmp, (c_x, c_y))
 
-
-    def update(self, game):
-        pass
 

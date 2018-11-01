@@ -17,6 +17,10 @@ class Scene:
         for component in self.components:
             component.draw()
 
+    def update(self):
+        for component in self.components:
+            component.update()
+
     # Adds a component to the scene.
     def add(self, component, name=None):
         if name is not None:

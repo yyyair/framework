@@ -32,6 +32,7 @@ class GameObject:
         self.screen = None
         self.background = None
         self.camera = None
+        self.events = EventManager()
 
         self.default_font = None
 
@@ -51,11 +52,39 @@ class GameObject:
 
     def set_scene(self, scene):
         if scene in self.scenes:
+            self.events.invoke("set_scene", {"old": self.current_scene, "new": scene})
             self.current_scene = scene
             return True
         else:
             return False
 
 
+class Event:
+    def __init__(self, name, func=None):
+        self.name = name
+        self.func = self.default
+        if func is not None:
+            self.func = func
 
+
+    def execute(self, data):
+        self.func(data)
+
+    def default(self, e):
+        print "Executed event %s" % self.name
+
+class EventManager:
+    def __init__(self):
+        self.events = {}
+
+    def add(self, event):
+        if event.name in self.events:
+            self.events[event.name].append(event)
+        else:
+            self.events[event.name] = [event]
+
+    def invoke(self, event_name, event_data):
+        if event_name  in self.events:
+            for e in self.events[event_name]:
+                e.execute(event_data)
 

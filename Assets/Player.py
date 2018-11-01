@@ -2,6 +2,8 @@ __author__ = 'User'
 
 from Graphics.Actor import Actor
 from Graphics.Animation import Frame, Animation
+from Collision import CollisionBox
+from Game import Event
 class Player(Actor):
     def __init__(self, game):
         Actor.__init__(self, game)
@@ -13,6 +15,15 @@ class Player(Actor):
         self.y_velocity = 1.0
 
         self.animated = True
+
+        self.collision_box = CollisionBox(None)
+        self.collision_box.width = 64
+        self.collision_box.height = 64
+        self.collision_box.name = "cb_player"
+
+        e = Event("cb_player", self.on_collision)
+
+        self.game.events.add(e)
 
         left_frame = Frame(32, 0, 32, 32, "left_1")
         right_frame = Frame(32, 64, 32, 32, "right_1")
@@ -32,11 +43,21 @@ class Player(Actor):
 
         self.bind_movement_keys()
 
-    def move(self, dir, n=1):
-        # TODO: Multiply dt by time since last tick
-        dt = 1 * n
-        self.x += self.x_velocity * dt * dir[0]
-        self.y += self.y_velocity * dt * dir[1]
+        self.ghost = False
+
+    def move(self, dir, n=0.1):
+        dt = 1 * n * self.game.clock.get_time()
+        dx = self.x_velocity * dt * dir[0]
+        dy = self.y_velocity * dt * dir[1]
+        self.collision_box.x += dx
+        self.collision_box.y += dy
+        if not self.ghost and self.collision_box.parent.in_wall(self.collision_box):
+            self.collision_box.x -= dx
+            self.collision_box.y -= dy
+            return
+
+        self.x += dx
+        self.y += dy
 
     def move_up(self):
 
@@ -64,5 +85,9 @@ class Player(Actor):
         self.game.keyboard.on("click", "S", self.move_down)
         self.game.keyboard.on("click", "A", self.move_left)
         self.game.keyboard.on("click", "D", self.move_right)
+
+    def on_collision(self, e):
+        pass
+
 
 

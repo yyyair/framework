@@ -10,9 +10,9 @@ class Mouse:
     def __init__(self):
         self.X = 0
         self.Y = 0
-        self._onclick = [[]] *3
-        self._ondown = [[]] *3
-        self._onup = [[]] *3
+        self._onclick = [[]] * 3
+        self._ondown = [[]] * 3
+        self._onup = [[]] * 3
 
         self.current = Mouse.UP
 
