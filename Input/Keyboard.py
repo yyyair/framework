@@ -46,7 +46,8 @@ class Keyboard:
             "LEFT_ARROW":{"state": Keyboard.CLEAR, "events": {"down":[], "up":[], "click":[], "clear":[]}},
             "BACKSPACE":{"state": Keyboard.CLEAR, "events": {"down":[], "up":[], "click":[], "clear":[]}},
             "TAB":{"state": Keyboard.CLEAR, "events": {"down":[], "up":[], "click":[], "clear":[]}},
-            "CAPS_LOCK":{"state": Keyboard.CLEAR, "events": {"down":[], "up":[], "click":[], "clear":[]}}
+            "CAPS_LOCK":{"state": Keyboard.CLEAR, "events": {"down":[], "up":[], "click":[], "clear":[]}},
+            "SPACE":{"state": Keyboard.CLEAR, "events": {"down":[], "up":[], "click":[], "clear":[]}}
 
         }
 
@@ -61,7 +62,8 @@ class Keyboard:
     def handle(self, event):
         key = self.pykey_to_key(event.key)
         if key == -1:
-            print "Unknown Key %s" % event.key
+            print("Unknown Key %s" % event.key)
+
             return
         if event.type == pygame.KEYDOWN:
             if self.keys[key]["state"] == Keyboard.CLEAR:
@@ -111,20 +113,22 @@ class Keyboard:
         if 97 <= pykey <= 122:
             return keys[pykey - 97].upper()
 
-        if pykey == pygame.K_UP:
+        elif pykey == pygame.K_UP:
             return "UP_ARROW"
-        if pykey == pygame.K_LEFT:
+        elif pykey == pygame.K_LEFT:
             return "LEFT_ARROW"
-        if pykey == pygame.K_RIGHT:
+        elif pykey == pygame.K_RIGHT:
             return "RIGHT_ARROW"
-        if pykey == pygame.K_DOWN:
+        elif pykey == pygame.K_DOWN:
             return "DOWN_ARROW"
-        if pykey == 8:
+        elif pykey == 8:
             return "BACKSPACE"
-        if pykey == 9:
+        elif pykey == 9:
             return "TAB "
-        if pykey == 301:
+        elif pykey == 301:
             return "CAPS_LOCK"
+        elif pykey == 32:
+            return "SPACE"
         return -1
 
     def exec_list(self, func_list):

@@ -60,9 +60,10 @@ class GameObject:
 
 
 class Event:
-    def __init__(self, name, func=None):
+    def __init__(self, name, func):
         self.name = name
         self.func = self.default
+
         if func is not None:
             self.func = func
 
@@ -71,20 +72,33 @@ class Event:
         self.func(data)
 
     def default(self, e):
-        print "Executed event %s" % self.name
+        print("Executed event %s" % self.name)
 
 class EventManager:
     def __init__(self):
         self.events = {}
+        self.debug = True
 
     def add(self, event):
+        if self.debug:
+            print "Added %s" % event.name
         if event.name in self.events:
             self.events[event.name].append(event)
         else:
             self.events[event.name] = [event]
 
     def invoke(self, event_name, event_data):
+        if event_name not in self.events:
+            print "Tried invoking %s but no such event!" % event_name
+            print self.events
+            return
+        if self.debug:
+            print "Invoked %s with %s" % (event_name, self.events[event_name][0].func)
         if event_name  in self.events:
             for e in self.events[event_name]:
                 e.execute(event_data)
+
+    def remove(self, name):
+        if name in self.events:
+            del self.events[name]
 

@@ -123,10 +123,13 @@ class Textbox(GuiActor):
         game.keyboard.on("click", "BACKSPACE", lambda: self.do_input("BACKSPACE"))
 
     def do_input(self, e):
+        # TODO: Implement more characters
         if self.focused and self.game.frame > self.last_input_frame + self.delta_input_frame:
             self.last_input_frame = self.game.frame
             if e == "BACKSPACE":
                 self.text = self.text[0:-1]
+            elif e == "SPACE":
+                self.text += " "
             elif e in "ABCDEFGHIJKLMNOPQRSTVUWXYZ":
                 self.text += e if self.game.keyboard.caps_lock else e.lower()
 

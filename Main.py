@@ -6,7 +6,9 @@ from Assets.Player import Player
 from Assets.TileEngine import TileEngine
 from Game import Event
 from Assets.Collision import CollisionManager, CollisionBox
-
+from Assets.Structures import Tree
+from Assets.Pickups import HealthPack, HealthPackGenerator, ForkBomb
+from Graphics.Utility import FPSCounter
 # Initialize your game. This method is called before the first frame, after loading resources.
 def init(game):
 
@@ -18,7 +20,7 @@ def init(game):
 
 
 
-    e = Event("test")
+    e = Event("test", lambda e: e)
     game.events.add(e)
 
 
@@ -40,14 +42,27 @@ def setup_world(game):
     collision.add(c, wall=True)
 
     player = Player(game)
-    player.collision_box.parent = collision
     player.material = game.resources.get_image("player")
-    collision.objects.append(player.collision_box)
+
+    tree = Tree(game)
+    world.add(tree)
+
+    hp_pack = ForkBomb(game)
+    hp_pack.set_position(128, 256)
+    world.add(hp_pack)
+
+    hp_pack_gen = HealthPackGenerator(game)
+    hp_pack_gen.set_position(128, 312)
+    world.add(hp_pack_gen)
 
     world.add(player)
 
     te = TileEngine(game)
     world.add(te)
+
+    label = FPSCounter(game)
+    world.add(label)
+
 
 # Why doesn't lambda: print work?
 def debug(x):
@@ -56,6 +71,9 @@ def debug(x):
 # Load your resources!
 def load(game):
     game.resources.load_image("player", "Textures/player.png")
+    game.resources.load_image("trees", "Textures/trees.png")
+    game.resources.load_image("items", "Textures/items.png")
+    game.resources.load_image("fireball", "Textures/fireball.png")
     game.resources.load_scene(game, "main_menu")
     game.resources.load_scene(game, "world")
     pass

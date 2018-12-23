@@ -2,15 +2,16 @@ __author__ = 'User'
 
 from Actor import Actor
 from GUI import GuiManager, GuiActor, GUI_Actors
+from Assets.Collision import CollisionActor, CollisionManager
 class Scene:
     def __init__(self, game):
         self.game = game
         self.name = None
-        self.components = []
         self.gui = GuiManager(game)
         self.gui.father = self
         self.components = []
-
+        self.taken_names = []
+        self.collision_manager = None
         self.game.mouse.on_click(0, self.gui.handle_mouse_click)
 
     def draw(self):
@@ -22,16 +23,39 @@ class Scene:
             component.update()
 
     # Adds a component to the scene.
-    def add(self, component, name=None):
-        if name is not None:
-            component.name = name
+    def add(self, component):
+        # Make sure component has good name
+        i = 1
+        if component.name is None:
+            component.name = "unnamed_component"
+        real_name = component.name
+        while component.name in self.taken_names:
+            component.name = real_name + str(i)
+            i += 1
+
+        # Check if the new component manages collisions
+        if isinstance(component, CollisionManager):
+            if self.collision_manager is None:
+                self.collision_manager = component
+
+        # Check if we should add component to gui manager
         if isinstance(component, GuiActor):
             self.gui.add(component)
+
+        # Check if we should add component to collision manager
+        if isinstance(component, CollisionActor):
+            component.collision_box.manager = self.collision_manager
+            self.collision_manager.add(component.collision_box)
+
+        self.taken_names.append(component.name)
         for i in range(len(self.components)):
             if self.components[i].priority < component.priority:
                 self.components.insert(i-1, component)
-                break
+                component.on_scene(self)
+                return
         self.components.insert(0, component)
+        component.on_scene(self)
+        print [c.priority for c in self.components]
 
     # Initiates scene from a given dictionary.
     def init_from_dict(self, dict):
@@ -50,6 +74,18 @@ class Scene:
             if c.name == name:
                 return c
         return None
+
+    # Remove component and return how many were removed
+    def remove_component(self, name):
+        tmp = []
+        for c in self.components:
+            if c.name == name:
+                print "Removing %s" % c.name
+                tmp.append(c)
+        for c in tmp:
+            if c in self.components:
+                self.components.remove(c)
+        return len(tmp)
 
 class TestScene(Scene):
     def __init__(self, game):

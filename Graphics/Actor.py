@@ -1,11 +1,11 @@
 __author__ = 'User'
 import pygame
 from pygame import transform
-from GameComponent import Component
+from GameComponent import MovingComponent
 
-class Actor(Component):
+class Actor(MovingComponent):
     def __init__(self, game, **kwargs):
-        Component.__init__(self, game)
+        MovingComponent.__init__(self, game)
         def_args  = {
             "name":None,
             "height":32,

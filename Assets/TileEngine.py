@@ -28,6 +28,8 @@ class TileEngine(Component):
         #test_tile = Tile(game)
         self.tiles = []
 
+        self.priority = -10000
+
         for i in range(16):
             for j in range(16):
                 tId = 3 if not (4 < i < 11) else (2 - i % 2 if i == 5 or i == 10 else 0)

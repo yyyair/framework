@@ -13,10 +13,10 @@ from Input.Mouse import Mouse
 from Resources import ResourceManager
 import socket, threading
 def debug():
-    print "bug"
+    print("bug")
 
 def _init(game):
-    print "Initializing"
+    print("Initializing")
     pygame.init()
 
     game.screen = pygame.display.set_mode((game.width, game.height))
